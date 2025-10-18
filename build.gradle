@@ -3,18 +3,43 @@ plugins {
     id 'application'
 }
 
+group = 'ru.multithreading'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.10.1'
-
-    // Lombok для автогенерации методов
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    // JUnit for testing (optional)
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
 }
 
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// Main entry point
 application {
-    mainClass = 'org.example.Main'
+    mainClass = 'Main'
+}
+
+// Configure run task for interactive mode
+run {
+    standardInput = System.in
+}
+
+// Configure encoding for compilation
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+// Configure encoding for JavaExec tasks
+tasks.withType(JavaExec) {
+    systemProperty 'file.encoding', 'UTF-8'
 }
